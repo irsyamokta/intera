@@ -110,6 +110,8 @@ Berikut adalah panduan untuk mengatur dan menjalankan proyek Intera di lingkunga
         CLOUDINARY_UPLOAD_PRESET=
         CLOUDINARY_NOTIFICATION_URL=
 
+        GEMINI_API_KEY=
+
         ```
 
 5.  **Generate Application Key**
