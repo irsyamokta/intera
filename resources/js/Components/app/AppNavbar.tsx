@@ -1,154 +1,157 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link } from "@inertiajs/react";
 import Button from "@/Components/ui/button/Button";
-import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { HiMenuAlt3, HiX, HiChevronDown } from "react-icons/hi";
 
-import LogoWhite from "../../../assets/logo/logo-white.png";
-import LogoColor from "../../../assets/logo/logo-color.png";
+import LogoColor from "../../../assets/svg/logo-color.svg";
 
-interface NavbarProps {
-    forceSolid?: boolean;
-}
+const LANGUAGES = [
+    { code: "id", label: "Indonesia" },
+    { code: "en", label: "English" },
+    { code: "jp", label: "日本語" },
+];
 
-const Navbar = ({ forceSolid = false }: NavbarProps) => {
+const Navbar = () => {
     const [openMenu, setOpenMenu] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
+    const [openLang, setOpenLang] = useState(false);
+    const [language, setLanguage] = useState("en");
 
-    useEffect(() => {
-        if (!forceSolid) {
-            const handleScroll = () => {
-                setScrolled(window.scrollY > 50);
-            };
-            window.addEventListener("scroll", handleScroll);
-            return () => window.removeEventListener("scroll", handleScroll);
-        } else {
-            setScrolled(true);
-        }
-    }, [forceSolid]);
-
-    const isSolid = forceSolid || scrolled;
+    const selectedLang = LANGUAGES.find(l => l.code === language);
 
     return (
-        <nav
-            className={`fixed top-0 left-0 w-full z-99 transition-all duration-300 ${isSolid ? "bg-white shadow" : "bg-transparent"
-                }`}
-        >
-            <div className="flex items-center justify-between px-4 lg:px-20 py-4">
-                {/* Logo */}
-                <Link href="/" className="flex items-center">
-                    <img
-                        src={isSolid ? LogoColor : LogoWhite}
-                        alt="Logo"
-                        className="w-40 sm:w-48 transition-all duration-200"
-                    />
-                </Link>
+        <nav className="fixed top-4 lg:top-6 left-0 w-full z-50">
+            <div className="mx-auto px-4 sm:px-12">
+                {/* Navbar Container */}
+                <div className="flex items-center justify-between bg-white rounded-full shadow-md px-5 py-3">
 
-                {/* Desktop menu */}
-                <div className="hidden lg:flex items-center gap-8">
-                    <Link
-                        href="/"
-                        className={`relative transition-colors ${isSolid ? "text-gray-900" : "text-white"}
-        hover:underline underline-offset-4`}
-                    >
-                        Beranda
+                    {/* Logo */}
+                    <Link href="/" className="flex items-center">
+                        <img src={LogoColor} alt="VoyageGo" className="w-28 lg:w-36" />
                     </Link>
-                    <a
-                        href="#features"
-                        className={`relative transition-colors ${isSolid ? "text-gray-900" : "text-white"}
-        hover:underline underline-offset-4`}
-                    >
-                        Layanan
-                    </a>
-                    <a
-                        href="#testimonials"
-                        className={`relative transition-colors ${isSolid ? "text-gray-900" : "text-white"}
-        hover:underline underline-offset-4`}
-                    >
-                        Testimoni
-                    </a>
-                    <a
-                        href="#mitra"
-                        className={`relative transition-colors ${isSolid ? "text-gray-900" : "text-white"}
-        hover:underline underline-offset-4`}
-                    >
-                        Mitra
-                    </a>
-                    <a
-                        href="#faq"
-                        className={`relative transition-colors ${isSolid ? "text-gray-900" : "text-white"}
-        hover:underline underline-offset-4`}
-                    >
-                        FAQ
-                    </a>
-                </div>
 
-                {/* Login button */}
-                <div className="hidden lg:flex items-center gap-3">
-                    <Link href="/login">
-                        <Button variant="alternate" size="xs">Login</Button>
-                    </Link>
-                </div>
+                    {/* Desktop Menu */}
+                    <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700">
+                        <Link href="/" className="hover:text-primary">Home</Link>
+                        <Link href="/explore" className="hover:text-primary">Explore</Link>
+                        <Link href="/company" className="hover:text-primary">Company</Link>
+                        <Link href="/testimonial" className="hover:text-primary">Testimonial</Link>
+                        <Link href="/faq" className="hover:text-primary">FAQ</Link>
+                    </div>
 
-                {/* Mobile menu button (hamburger muncul sampai tablet) */}
-                <button
-                    className={`lg:hidden text-3xl transition-colors duration-300 ${isSolid ? "text-gray-900" : "text-white"}`}
-                    onClick={() => setOpenMenu(!openMenu)}
-                >
-                    {openMenu ? <HiX /> : <HiMenuAlt3 />}
-                </button>
-            </div>
+                    {/* Desktop Right */}
+                    <div className="hidden lg:flex items-center gap-4 relative">
+                        <button
+                            onClick={() => setOpenLang(!openLang)}
+                            className="flex items-center gap-2 text-sm text-gray-700 hover:text-primary"
+                        >
+                            {selectedLang?.label}
+                            <HiChevronDown />
+                        </button>
 
-            {/* Mobile dropdown menu */}
-            {openMenu && (
-                <div className="lg:hidden bg-black/95 text-white px-6 py-6 space-y-6">
-                    <nav className="flex flex-col gap-4 text-lg font-medium">
-                        <Link
-                            href="/"
-                            onClick={() => setOpenMenu(false)}
-                            className="block px-3 py-2 rounded hover:bg-white/10 transition-colors"
-                        >
-                            Beranda
-                        </Link>
-                        <a
-                            href="#features"
-                            onClick={() => setOpenMenu(false)}
-                            className="block px-3 py-2 rounded hover:bg-white/10 transition-colors"
-                        >
-                            Layanan
-                        </a>
-                        <a
-                            href="#testimonials"
-                            onClick={() => setOpenMenu(false)}
-                            className="block px-3 py-2 rounded hover:bg-white/10 transition-colors"
-                        >
-                            Testimoni
-                        </a>
-                        <a
-                            href="#mitra"
-                            onClick={() => setOpenMenu(false)}
-                            className="block px-3 py-2 rounded hover:bg-white/10 transition-colors"
-                        >
-                            Mitra
-                        </a>
-                        <a
-                            href="#faq"
-                            onClick={() => setOpenMenu(false)}
-                            className="block px-3 py-2 rounded hover:bg-white/10 transition-colors"
-                        >
-                            FAQ
-                        </a>
-                    </nav>
+                        {openLang && (
+                            <div className="absolute right-24 top-12 bg-white rounded-xl shadow-lg py-2 w-36 text-sm">
+                                {LANGUAGES.map(lang => (
+                                    <button
+                                        key={lang.code}
+                                        onClick={() => {
+                                            setLanguage(lang.code);
+                                            setOpenLang(false);
+                                        }}
+                                        className={`w-full text-left px-4 py-2 hover:bg-gray-100 ${language === lang.code
+                                                ? "font-semibold text-primary"
+                                                : ""
+                                            }`}
+                                    >
+                                        {lang.label}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
 
-                    {/* Login button */}
-                    <div className="pt-4">
-                        <Link href="/login" onClick={() => setOpenMenu(false)}>
-                            <Button variant="alternate" className="w-full py-2 text-base">
-                                Login
+                        <Link href="/get-started">
+                            <Button className="rounded-full px-6 py-2 text-sm">
+                                Get Started
                             </Button>
                         </Link>
                     </div>
+
+                    {/* Mobile Toggle */}
+                    <button
+                        className="lg:hidden text-2xl text-gray-700"
+                        onClick={() => setOpenMenu(!openMenu)}
+                    >
+                        {openMenu ? <HiX /> : <HiMenuAlt3 />}
+                    </button>
                 </div>
-            )}
+
+                {/* Mobile Menu */}
+                {openMenu && (
+                    <div className="lg:hidden mt-3 bg-white rounded-2xl shadow-xl overflow-hidden">
+
+                        {/* Menu Links */}
+                        <div className="flex flex-col px-5 py-4 space-y-3 text-sm">
+                            {[
+                                { href: "/", label: "Home" },
+                                { href: "/explore", label: "Explore" },
+                                { href: "/company", label: "Company" },
+                                { href: "/testimonial", label: "Testimonial" },
+                                { href: "/faq", label: "FAQ" },
+                            ].map(item => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    onClick={() => setOpenMenu(false)}
+                                    className="px-4 py-3 rounded-sm hover:bg-gray-100"
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
+
+                            <Link href="/get-started" onClick={() => setOpenMenu(false)}>
+                                <Button className="w-full rounded-full mt-2">
+                                    Get Started
+                                </Button>
+                            </Link>
+                        </div>
+
+                        {/* Mobile Language Dropdown */}
+                        <div className="px-5 py-4 border-b relative">
+                            <p className="text-xs text-gray-400 mb-2">Language</p>
+
+                            <button
+                                onClick={() => setOpenLang(!openLang)}
+                                className="w-full flex items-center justify-between px-4 py-3 rounded-sm bg-gray-100 text-sm"
+                            >
+                                {selectedLang?.label}
+                                <HiChevronDown
+                                    className={`transition-transform ${openLang ? "rotate-180" : ""
+                                        }`}
+                                />
+                            </button>
+
+                            {openLang && (
+                                <div className="mt-2 bg-white rounded-xl shadow-md overflow-hidden">
+                                    {LANGUAGES.map(lang => (
+                                        <button
+                                            key={lang.code}
+                                            onClick={() => {
+                                                setLanguage(lang.code);
+                                                setOpenLang(false);
+                                            }}
+                                            className={`w-full text-left px-4 py-3 text-sm hover:bg-gray-100 ${language === lang.code
+                                                    ? "font-semibold text-primary"
+                                                    : ""
+                                                }`}
+                                        >
+                                            {lang.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                )}
+            </div>
         </nav>
     );
 };
