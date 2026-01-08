@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface ButtonProps {
     type?: "button" | "submit" | "reset";
     children: ReactNode; // Button text or content
-    size?: "none" | "ghost" | "square" | "xs" | "sm" | "md" | "icon"; // Button size
+    size?: "none" | "ghost" | "square" | "xs" | "sm" | "md" | "icon" | "default"; // Button size
     variant?: "default" | "primary" | "outline" | "outlineDash" | "popover" | "danger" | "alternate" | "link"; // Button variant
     startIcon?: ReactNode; // Icon before the text
     endIcon?: ReactNode; // Icon after the text
@@ -14,7 +14,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = ({
     children,
-    size = "md",
+    size = "default",
     variant = "default",
     startIcon,
     endIcon,
@@ -24,6 +24,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
     // Size Classes
     const sizeClasses = {
+        default: "px-4 py-2 text-sm h-10",
         none: "px-0 py-3 text-sm",
         ghost: "text-base px-1 py-1",
         square: "p-3 text-sm",
@@ -35,7 +36,7 @@ const Button: React.FC<ButtonProps> = ({
 
     // Variant Classes
     const variantClasses = {
-        default: "bg-primary text-white hover:bg-primary/90",
+        default: "bg-primary text-white hover:bg-primary/90 rounded-l-full rounded-r-full",
         outline: "border bg-transparent",
         outlineDash: "border border-dashed border-primary bg-transparent",
         popover: "border text-primary bg-white hover:bg-primary/10 shadow-xs",

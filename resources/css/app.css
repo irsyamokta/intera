@@ -167,10 +167,6 @@
 	--z-index-999999: 999999;
 }
 
-body {
-	@apply font-outfit;
-}
-
 @layer base {
 	*,
 	::after,
@@ -185,7 +181,7 @@ body {
 		cursor: pointer;
 	}
 	body {
-		@apply relative font-normal font-outfit z-1 bg-white;
+		@apply relative font-normal font-outfit z-1 bg-white overflow-x-hidden;
 	}
 }
 
