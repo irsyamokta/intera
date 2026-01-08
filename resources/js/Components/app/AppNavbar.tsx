@@ -20,7 +20,7 @@ const Navbar = () => {
 
     return (
         <nav className="fixed top-4 lg:top-6 left-0 w-full z-50">
-            <div className="mx-auto px-4 sm:px-12">
+            <div className="mx-auto px-4 lg:px-12">
                 {/* Navbar Container */}
                 <div className="flex items-center justify-between bg-white rounded-full shadow-md px-5 py-3">
 
@@ -33,9 +33,9 @@ const Navbar = () => {
                     <div className="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-700">
                         <Link href="/" className="hover:text-primary">Home</Link>
                         <Link href="/explore" className="hover:text-primary">Explore</Link>
-                        <Link href="/company" className="hover:text-primary">Company</Link>
-                        <Link href="/testimonial" className="hover:text-primary">Testimonial</Link>
-                        <Link href="/faq" className="hover:text-primary">FAQ</Link>
+                        <Link href="/company" className="hover:text-primary">Packages</Link>
+                        <Link href="#testimonial" className="hover:text-primary">Testimonial</Link>
+                        <Link href="#faq" className="hover:text-primary">FAQ</Link>
                     </div>
 
                     {/* Desktop Right */}
@@ -69,7 +69,7 @@ const Navbar = () => {
                         )}
 
                         <Link href="/get-started">
-                            <Button className="rounded-full px-6 py-2 text-sm">
+                            <Button>
                                 Get Started
                             </Button>
                         </Link>
@@ -87,32 +87,6 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 {openMenu && (
                     <div className="lg:hidden mt-3 bg-white rounded-2xl shadow-xl overflow-hidden">
-
-                        {/* Menu Links */}
-                        <div className="flex flex-col px-5 py-4 space-y-3 text-sm">
-                            {[
-                                { href: "/", label: "Home" },
-                                { href: "/explore", label: "Explore" },
-                                { href: "/company", label: "Company" },
-                                { href: "/testimonial", label: "Testimonial" },
-                                { href: "/faq", label: "FAQ" },
-                            ].map(item => (
-                                <Link
-                                    key={item.href}
-                                    href={item.href}
-                                    onClick={() => setOpenMenu(false)}
-                                    className="px-4 py-3 rounded-sm hover:bg-gray-100"
-                                >
-                                    {item.label}
-                                </Link>
-                            ))}
-
-                            <Link href="/get-started" onClick={() => setOpenMenu(false)}>
-                                <Button className="w-full rounded-full mt-2">
-                                    Get Started
-                                </Button>
-                            </Link>
-                        </div>
 
                         {/* Mobile Language Dropdown */}
                         <div className="px-5 py-4 border-b relative">
@@ -148,6 +122,32 @@ const Navbar = () => {
                                     ))}
                                 </div>
                             )}
+                        </div>
+
+                        {/* Menu Links */}
+                        <div className="flex flex-col px-5 py-4 space-y-3 text-sm">
+                            {[
+                                { href: "/", label: "Home" },
+                                { href: "/explore", label: "Explore" },
+                                { href: "/company", label: "Company" },
+                                { href: "/testimonial", label: "Testimonial" },
+                                { href: "/faq", label: "FAQ" },
+                            ].map(item => (
+                                <Link
+                                    key={item.href}
+                                    href={item.href}
+                                    onClick={() => setOpenMenu(false)}
+                                    className="px-4 py-3 rounded-sm hover:bg-gray-100"
+                                >
+                                    {item.label}
+                                </Link>
+                            ))}
+
+                            <Link href="/get-started" onClick={() => setOpenMenu(false)}>
+                                <Button className="w-full mt-2">
+                                    Get Started
+                                </Button>
+                            </Link>
                         </div>
                     </div>
                 )}
