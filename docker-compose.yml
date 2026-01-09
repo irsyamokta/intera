@@ -4,6 +4,8 @@ services:
     container_name: intera-app
     restart: always
     working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
