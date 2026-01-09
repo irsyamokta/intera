@@ -25,7 +25,7 @@ jobs:
 
             # Pull kode terbaru
             git fetch --all
-            git reset --hard origin/main
+            git reset --hard origin/master
             git clean -fd
             git pull origin master
 
