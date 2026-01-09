@@ -1,0 +1,46 @@
+name: Deploy via Docker
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            cd ~/app/intera
+
+            # Pull kode terbaru
+            git fetch --all
+            git reset --hard origin/main
+            git clean -fd
+            git pull origin main
+
+            # Build ulang Docker image Laravel
+            docker compose build --no-cache app
+
+            # Jalankan container terbaru
+            docker compose up -d
+
+            # Clear cache Laravel
+            docker compose exec -T app php artisan config:clear
+            docker compose exec -T app php artisan cache:clear
+            docker compose exec -T app php artisan view:clear
+            docker compose exec -T app php artisan route:clear
+            docker compose exec -T app php artisan optimize:clear
+            
+            docker compose exec -T app php artisan config:cache
+            docker compose exec -T app php artisan route:cache
