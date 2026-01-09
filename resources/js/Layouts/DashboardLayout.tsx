@@ -4,7 +4,7 @@ import { SidebarProvider, useSidebar } from "@/Context/SidebarContext";
 import AppHeader from "@/Components/app/AppHeader";
 import AppSidebar from "@/Components/app/AppSidebar";
 import { navConfig } from "@/utils/navConfig";
-import Backdrop from "@/Layouts/Backdrop";
+import Backdrop from "@/Layouts/BackDrop";
 
 function LayoutContent({ children }: PropsWithChildren) {
     const { auth }: any = usePage().props;

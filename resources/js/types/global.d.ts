@@ -18,6 +18,7 @@ declare module "@inertiajs/core" {
     interface PageProps extends InertiaPageProps, AppPageProps {
         auth: {
             user: {
+                email_verified_at: null;
                 id: string;
                 name: string;
                 avatar?: string;
