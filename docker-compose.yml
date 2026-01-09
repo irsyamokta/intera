@@ -19,5 +19,5 @@ services:
       - dockernet
 
 networks:
-  odoonet:
+  dockernet:
     external: true
