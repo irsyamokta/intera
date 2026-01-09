@@ -8,7 +8,7 @@ COPY package*.json ./
 RUN npm install
 
 COPY resources resources
-COPY vite.config.ts tsconfig.json ./
+COPY vite.config.js tsconfig.json ./
 RUN npm run build
 
 
