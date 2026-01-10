@@ -1,19 +1,32 @@
-name: Deploy via Docker
+name: Build & Deploy Docker Image
 
 on:
   push:
     branches:
       - master
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - name: Deploy via SSH
+      - name: Login to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build & Push Docker Image
+        run: |
+          IMAGE=ghcr.io/${{ github.repository_owner }}/intera:latest
+          docker build -t $IMAGE .
+          docker push $IMAGE
+
+      - name: Deploy on VPS via SSH
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.VPS_HOST }}
@@ -23,24 +36,8 @@ jobs:
           script: |
             cd ~/app/intera
 
-            # Pull kode terbaru
-            git fetch --all
-            git reset --hard origin/master
-            git clean -fd
-            git pull origin master
+            docker pull ghcr.io/${{ github.repository_owner }}/intera:latest
+            docker compose -f docker-compose.yml up -d
 
-            # Build ulang Docker image Laravel
-            docker compose build --no-cache app
-
-            # Jalankan container terbaru
-            docker compose up -d
-
-            # Clear cache Laravel
-            docker compose exec -T app php artisan config:clear
-            docker compose exec -T app php artisan cache:clear
-            docker compose exec -T app php artisan view:clear
-            docker compose exec -T app php artisan route:clear
-            docker compose exec -T app php artisan optimize:clear
-            
-            docker compose exec -T app php artisan config:cache
-            docker compose exec -T app php artisan route:cache
+            docker compose exec -T app php artisan migrate --force
+            docker compose exec -T app php artisan optimize
