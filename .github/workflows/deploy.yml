@@ -36,7 +36,14 @@ jobs:
           script: |
             cd ~/app/intera
 
+            rm -rf bootstrap/cache/*
+            rm -rf storage/framework/*
+
             docker pull ghcr.io/${{ github.repository_owner }}/intera:latest
             docker compose -f docker-compose.yml up -d
 
+            docker compose exec app php artisan optimize:clear
+            docker compose exec app php artisan config:cache
+            docker compose exec app php artisan route:cache
+            docker compose exec app php artisan view:cache
             docker compose exec -T app php artisan optimize
