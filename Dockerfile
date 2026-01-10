@@ -1,5 +1,5 @@
 # =====================
-# STAGE 1: Frontend build
+# STAGE 1: Frontend
 # =====================
 FROM node:20-alpine AS frontend
 
@@ -13,7 +13,7 @@ RUN npm run build
 
 
 # =====================
-# STAGE 2: PHP Production
+# STAGE 2: PHP
 # =====================
 FROM php:8.3-fpm
 
@@ -25,13 +25,15 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
 
-# Copy Laravel
+# Copy Laravel source
 COPY . .
 
-# Copy hasil build Vite
+# Copy Vite build
 COPY --from=frontend /app/public/build public/build
 
-RUN composer install --no-dev --optimize-autoloader \
+# PENTING: hapus cache sebelum composer
+RUN rm -rf bootstrap/cache/*.php \
+    && composer install --no-dev --optimize-autoloader \
     && chown -R www-data:www-data storage bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
