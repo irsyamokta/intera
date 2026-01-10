@@ -1,6 +1,6 @@
 services:
   app:
-    image: ghcr.io/USERNAME/intera:latest
+    image: ghcr.io/irsyamokta/intera:latest
     container_name: intera-app
     restart: always
     env_file:
@@ -16,10 +16,10 @@ services:
     container_name: intera-nginx
     restart: always
     volumes:
+      - .:/var/www/html
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./storage:/var/www/html/storage
     ports:
-      - "80:80"
+      - "8082:80"
     depends_on:
       - app
     networks:

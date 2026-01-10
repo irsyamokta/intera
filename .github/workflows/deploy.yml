@@ -39,5 +39,4 @@ jobs:
             docker pull ghcr.io/${{ github.repository_owner }}/intera:latest
             docker compose -f docker-compose.yml up -d
 
-            docker compose exec -T app php artisan migrate --force
             docker compose exec -T app php artisan optimize
