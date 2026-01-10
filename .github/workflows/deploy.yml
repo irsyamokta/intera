@@ -36,12 +36,6 @@ jobs:
           script: |
             cd ~/app/intera
 
-            sudo chown -R intera:intera bootstrap/cache storage
-            sudo chmod -R 775 bootstrap/cache storage
-
-            rm -rf bootstrap/cache/*
-            rm -rf storage/framework/*
-
             docker compose down
             docker pull ghcr.io/${{ github.repository_owner }}/intera:latest
             docker compose -f docker-compose.yml up -d
@@ -49,5 +43,4 @@ jobs:
             docker compose exec app php artisan optimize:clear
             docker compose exec app php artisan config:cache
             docker compose exec app php artisan route:cache
-            docker compose exec app php artisan view:cache
             docker compose exec -T app php artisan optimize
