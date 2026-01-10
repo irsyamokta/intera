@@ -81,14 +81,14 @@ export default function FloatingChat({ isAuthenticated }: FloatingChatProps) {
             {/* Floating Button */}
             <button
                 onClick={() => setIsChatOpen(true)}
-                className="fixed bottom-6 right-4 sm:right-12 z-50 w-14 h-14 rounded-full bg-primary text-white shadow-lg flex items-center justify-center hover:bg-primary/90 transition"
+                className="fixed bottom-6 right-4 lg:right-12 z-50 w-14 h-14 rounded-full bg-primary text-white shadow-lg flex items-center justify-center hover:bg-primary/90 transition"
             >
                 <HiOutlineChatBubbleOvalLeftEllipsis size={28} />
             </button>
 
             {/* Chat Window */}
             {isChatOpen && (
-                <div className="fixed bottom-24 right-6 z-50 w-90 h-130 bg-white dark:bg-zinc-800 rounded-xl shadow-xl flex flex-col">
+                <div className="fixed bottom-24 right-6 lg:right-12 z-50 w-80 xsm:w-90 h-130 bg-white dark:bg-zinc-800 rounded-xl shadow-xl flex flex-col">
                     {/* Header */}
                     <div className="flex items-center justify-between px-4 py-3 border-b dark:border-zinc-700">
                         <h2 className="text-sm font-semibold">Intera</h2>
