@@ -4,7 +4,6 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
-    base: '/',
     plugins: [
         laravel({
             input: 'resources/js/app.tsx',
@@ -13,8 +12,4 @@ export default defineConfig({
         react(),
         tailwindcss(),
     ],
-    build: {
-        outDir: 'public/build',
-        manifest: true,
-    },
 });
