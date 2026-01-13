@@ -9,18 +9,8 @@ COPY resources resources
 COPY vite.config.js tsconfig.json ./
 RUN npm run build
 
-
 # =====================
-# STAGE 2: Composer
-# =====================
-FROM composer:2 AS vendor
-WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction
-
-
-# =====================
-# STAGE 3: App (PHP + NGINX)
+# STAGE 2: App (PHP + NGINX)
 # =====================
 FROM php:8.3-fpm-alpine
 
@@ -29,11 +19,14 @@ RUN apk add --no-cache nginx bash \
 
 WORKDIR /var/www/html
 
-# Copy Laravel source
+# Copy SELURUH source code (TERMASUK artisan)
 COPY . .
 
-# Copy dependencies
-COPY --from=vendor /app/vendor vendor
+# Install Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Install dependencies (artisan SUDAH ADA)
+RUN composer install --no-dev --optimize-autoloader --no-interaction
 
 # Copy Vite build
 COPY --from=frontend /app/public/build public/build
