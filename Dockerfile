@@ -2,12 +2,19 @@
 # STAGE 1: Frontend
 # =====================
 FROM node:20-alpine AS frontend
+
 WORKDIR /app
+
 COPY package*.json ./
 RUN npm install
+
+# COPY SEMUA YANG DIBUTUHKAN VITE
 COPY resources resources
-COPY vite.config.js tsconfig.json ./
+COPY public public
+COPY vite.config.* tsconfig.json ./
+
 RUN npm run build
+
 
 # =====================
 # STAGE 2: App (PHP + NGINX)
@@ -19,16 +26,14 @@ RUN apk add --no-cache nginx bash \
 
 WORKDIR /var/www/html
 
-# Copy SELURUH source code (TERMASUK artisan)
+# Copy seluruh source Laravel
 COPY . .
 
-# Install Composer
+# Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
-
-# Install dependencies (artisan SUDAH ADA)
 RUN composer install --no-dev --optimize-autoloader --no-interaction
 
-# Copy Vite build
+# COPY HASIL BUILD VITE
 COPY --from=frontend /app/public/build public/build
 
 COPY nginx/default.conf /etc/nginx/http.d/default.conf
