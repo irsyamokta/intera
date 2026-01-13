@@ -36,12 +36,11 @@ jobs:
           script: |
             cd ~/app/intera
 
-            docker compose down
-            docker pull ghcr.io/${{ github.repository_owner }}/intera:latest
             docker compose up -d
 
             sleep 5
 
+            docker compose exec -T app php artisan key:generate --force || true
             docker compose exec -T app php artisan optimize:clear
-            docker compose exec -T app php artisan config:cache
-            docker compose exec -T app php artisan route:cache
+            docker compose exec -T app php artisan config:clear
+            docker compose exec -T app php artisan route:clear
