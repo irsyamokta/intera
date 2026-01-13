@@ -37,5 +37,5 @@ jobs:
             cd ~/app/intera
 
             docker compose down
-            docer compose pull
+            docker compose pull
             docker compose up -d
