@@ -2,7 +2,7 @@ services:
   app:
     image: ghcr.io/irsyamokta/intera:latest
     container_name: intera
-    restart: always
+    restart: unless-stopped
     env_file:
       - .env
     ports:
