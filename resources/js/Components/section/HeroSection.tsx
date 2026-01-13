@@ -39,7 +39,7 @@ export default function HeroSection() {
             {/* Content */}
             <div className="relative z-10 max-w-5xl px-6 text-center text-white">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
-                    WHERE EVERY TRIP HAS A STORY
+                    WHERE EVERY TRIP HAS A
                 </h1>
 
                 <p className="mt-4 text-sm sm:text-base text-white/90 max-w-2xl mx-auto">

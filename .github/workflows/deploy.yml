@@ -36,10 +36,6 @@ jobs:
           script: |
             cd ~/app/intera
 
+            docker compose down
+            docer compose pull
             docker compose up -d
-
-            sleep 5
-
-            docker compose exec -T app php artisan optimize:clear
-            docker compose exec -T app php artisan config:clear
-            docker compose exec -T app php artisan route:clear
